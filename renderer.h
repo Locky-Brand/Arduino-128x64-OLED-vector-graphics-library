@@ -26,12 +26,6 @@ public:
   void frameBegin();
   void frameEnd();
 
-  // TODO fix
-  void useMap();
-  void changeMap(char* i_newMap, uint8_t* groundTex, const vec2& i_mapScale, const unsigned int& i_mapWidth, mesh& i_wallMesh, collider* i_worldCollision, const unsigned int& stackptr, const unsigned int& maxSize);
-  void changeMapEx(char* i_newMap, uint8_t* groundTex, const vec2& i_mapScale, const unsigned int& i_mapWidth, mesh& i_wallMesh, collider* i_worldCollision, const unsigned int& stackptr, const unsigned int& maxSize);
-  void changeMapTemp(char* i_newMap, uint8_t* groundTex, const vec2& i_mapScale, const unsigned int& i_mapWidth, mesh& i_wallMesh, collider* i_worldCollision, const unsigned int& stackptr, const unsigned int& maxSize);
-
   OLED screen;
 private:
   void drawLines(mesh& i_mesh);
