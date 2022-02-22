@@ -2,7 +2,6 @@
 #define COLL_H
 #include "utilities.h"
 #include "arduinoList.h"
-//#include "character.h"
 
 struct collider{
   collider();

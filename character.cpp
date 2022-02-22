@@ -60,10 +60,10 @@ void character::getInput(worldCollision& i_worldColliders){
   i_worldColliders.getCollision()[collide.worldIndex]->location[1] += lastDirectionVec;
   characterMesh->translate(lastDirectionVec.x, lastDirectionVec.y);
   for(int i = collide.worldIndex; i < i_worldColliders.getCount(); ++i){
-    if(collide.location[1].x+2 > i_worldColliders.getCollision()[i]->location[0].x &&
-       collide.location[0].x-2 < i_worldColliders.getCollision()[i]->location[1].x &&
-       collide.location[1].y-2 < i_worldColliders.getCollision()[i]->location[0].y &&
-       collide.location[0].y+2 > i_worldColliders.getCollision()[i]->location[1].y
+    if(collide.location[1].x > i_worldColliders.getCollision()[i]->location[0].x &&
+       collide.location[0].x < i_worldColliders.getCollision()[i]->location[1].x &&
+       collide.location[1].y < i_worldColliders.getCollision()[i]->location[0].y &&
+       collide.location[0].y > i_worldColliders.getCollision()[i]->location[1].y
     ){
       collide.location[0] -= lastDirectionVec;
       collide.location[1] -= lastDirectionVec;
@@ -79,6 +79,8 @@ mesh* character::getMesh() const{
 }
 void character::setMesh(mesh* i_mesh){
   characterMesh = i_mesh;
+  collide.location[0] = {i_mesh->getMinX(), i_mesh->getMaxY()};
+  collide.location[1] = {i_mesh->getMaxX(), i_mesh->getMinY()};
 }
 collider* character::getCollider(){
   return &collide;

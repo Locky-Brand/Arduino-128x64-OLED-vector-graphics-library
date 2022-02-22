@@ -4,11 +4,18 @@
 letter::letter() : m_pos({1, 1}), m_letter('e') {
     
 }
-letter::letter(const char& i_letter, const vec2& i_pos) : m_letter(i_letter), m_pos(i_pos) {
+letter::letter(const char& i_letter, const vec2& i_pos) : m_letter(i_letter) {
+  m_pos = (vec2){i_pos.x, i_pos.y};
   int base = i_letter - 65;
   int letterIndex = base * 5;
   for(int i = letterIndex; i < (letterIndex + 5); ++i){
     characters.getBitMap()[i - letterIndex] = pgm_read_byte(FLASHMEM::Alphabet + i);
+  }
+  characters.constructLetterBMP(static_texture(m_pos, 5, 8));
+}
+letter::letter(uint8_t* i_customLetter, const vec2& i_pos){
+  for(int i = 0; i < 5; ++i){
+    characters.getBitMap()[i] = i_customLetter[i];
   }
   characters.constructLetterBMP(static_texture(i_pos, 5, 8));
 }

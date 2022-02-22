@@ -1,5 +1,6 @@
 #ifndef ABET_H
 #define ABET_H
+#include <Arduino.h>
 #include "static_texture.h"
 #include "progmemVar.h" 
 #include "renderer.h"
@@ -7,6 +8,7 @@
 struct letter {
   letter();
   letter(const char& i_letter, const vec2& i_pos);
+  letter(uint8_t* i_customLetter, const vec2& i_pos);
   ~letter();
 
   void operator = (const letter& i_other);

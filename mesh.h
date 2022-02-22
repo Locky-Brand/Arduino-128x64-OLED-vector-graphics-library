@@ -55,6 +55,11 @@ public:
   vec2 getCentre() const;
   bool getBitMapCoord(const unsigned int& i_indexByte, const unsigned int& i_indexBit) const;
   float operator [] (const unsigned int& i_index);
+  float getMaxX() const;
+  float getMaxY() const;
+  float getMinX() const;
+  float getMinY() const;
+  
 private:
   friend class meshCache;
   

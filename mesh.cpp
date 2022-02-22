@@ -65,18 +65,18 @@ mesh::mesh(){
 }
 mesh::mesh(float* i_verticies, const unsigned int& i_vertexStride, const unsigned int& i_verticiesSize, const unsigned int& i_elementStride, const unsigned int& i_elementAmount) : m_verticies(i_verticies), m_bitMap(nullptr), m_vertexStride(i_vertexStride), m_bitMapStride(-1), m_verticiesSize(i_verticiesSize), m_bitMapSize(0), m_elementStride(i_elementStride), m_elementAmount(i_elementAmount){
   m_bitMap = nullptr;
-  centreX = findMean(i_verticies, i_verticiesSize, i_vertexStride, i_elementStride, i_elementAmount).x;
-  centreY = findMean(i_verticies, i_verticiesSize, i_vertexStride, i_elementStride, i_elementAmount).y; 
+  vec2 centre = findMean(i_verticies, i_verticiesSize, i_vertexStride, i_elementStride, i_elementAmount);
+  centreX = centre.x;
+  centreY = centre.y; 
 }
 mesh::mesh(const gfxData& i_data) : m_verticies(i_data.verts), m_bitMap(nullptr), m_vertexStride(i_data.vertexStride), m_bitMapStride(-1), m_verticiesSize(i_data.vertsSize), m_bitMapSize(0), m_elementStride(i_data.elementStride), m_elementAmount(i_data.elementAmount){
   m_bitMap = nullptr;
-  //centreX = findMean(i_data.verts, i_data.vertsSize, i_data.vertexStride, i_data.elementStride, i_data.elementAmount).x;
-  //centreY = findMean(i_data.verts, i_data.vertsSize, i_data.vertexStride, i_data.elementStride, i_data.elementAmount).y;
   setPos(i_data.pos.x, i_data.pos.y);
 }
 mesh::mesh(float* i_verticies, uint8_t* i_bitMap, const unsigned int& i_vertexStride, const unsigned int& i_bitMapStride, const unsigned int& i_verticiesSize, const unsigned int& i_bitMapSize, const unsigned int& i_elementStride, const unsigned int& i_elementAmount) : m_verticies(i_verticies), m_bitMap(i_bitMap), m_vertexStride(i_vertexStride), m_bitMapStride(i_bitMapStride), m_verticiesSize(i_verticiesSize), m_bitMapSize(i_bitMapSize), m_elementStride(i_elementStride), m_elementAmount(i_elementAmount){
-  centreX = findMean(i_verticies, i_verticiesSize, i_vertexStride, i_elementStride, i_elementAmount).x;
-  centreY = findMean(i_verticies, i_verticiesSize, i_vertexStride, i_elementStride, i_elementAmount).y;
+  vec2 centre = findMean(i_verticies, i_verticiesSize, i_vertexStride, i_elementStride, i_elementAmount);
+  centreX = centre.x;
+  centreY = centre.y; 
 }
 mesh::mesh(const mesh& i_other) : m_verticiesSize(i_other.m_verticiesSize), m_verticies(new float[i_other.m_verticiesSize]){
   this->centreX = i_other.centreX;
@@ -106,8 +106,9 @@ void mesh::rotate(const float& i_rotation){
     m_verticies[i] = (translatedVertex.x + centreX);
     m_verticies[i+1] = (translatedVertex.y + centreY);
   }
-  centreX = findMean(m_verticies, m_verticiesSize, m_vertexStride, m_elementStride, m_elementAmount).x;
-  centreY = findMean(m_verticies, m_verticiesSize, m_vertexStride, m_elementStride, m_elementAmount).y;
+  vec2 centre = findMean(m_verticies, m_verticiesSize, m_vertexStride, m_elementStride, m_elementAmount);
+  centreX = centre.x;
+  centreY = centre.y; 
 }
 void mesh::translate(const float& i_translateX, const float& i_translateY){
   for(int i = 0; i < m_verticiesSize; i += m_elementStride){
@@ -165,6 +166,42 @@ float mesh::operator [] (const unsigned int& i_index){
 }
 unsigned int mesh::getElementStride() const{
   return m_elementStride;
+}
+float mesh::getMaxX() const{
+  float currentMax = -128.0f;
+  for(int i = 0; i < m_verticiesSize; i += 2){
+    if(m_verticies[i] > currentMax){
+      currentMax = m_verticies[i];
+    }
+  }
+  return currentMax;
+}
+float mesh::getMaxY() const{
+  float currentMax = -64.0f;
+  for(int i = 1; i < m_verticiesSize; i += 2){
+    if(m_verticies[i] > currentMax){
+      currentMax = m_verticies[i];
+    }
+  }
+  return currentMax;
+}
+float mesh::getMinX() const{
+  float currentMin = 128.0f;
+  for(int i = 0; i < m_verticiesSize; i += 2){
+    if(m_verticies[i] < currentMin){
+      currentMin = m_verticies[i];
+    }
+  }
+  return currentMin;
+}
+float mesh::getMinY() const{
+  float currentMin = 64.0f;
+  for(int i = 1; i < m_verticiesSize; i += 2){
+    if(m_verticies[i] < currentMin){
+      currentMin = m_verticies[i];
+    }
+  }
+  return currentMin;
 }
 void mesh::operator = (const mesh& i_other){
   this->centreX = i_other.centreX;
