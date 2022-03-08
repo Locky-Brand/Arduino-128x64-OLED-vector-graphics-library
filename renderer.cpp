@@ -62,7 +62,7 @@ void renderer::placeBit(const unsigned int& x, const unsigned int& y, const bool
   while(bitCoord >= 8){
     bitCoord -= 8;
   }
-  if(((x < 128) && (x > 0) && (y < 64) && (y > 0)) || i_look == 0){
+  if(((x < 128) && (x > 0) && (y < 64) && (y > 0)) && i_look != 0){
     bitWrite(m_frameBuffer[byteCoord], bitCoord, i_look);  
   }
 }
@@ -73,7 +73,7 @@ void renderer::placeMapBit(const unsigned int& x, const unsigned int& y, const b
   while(bitCoord >= 8){
     bitCoord -= 8;
   }
-  if(((x < 128) && (x > 0) && (y < 64) && (y > 0)) || i_look == 0){
+  if(((x < 128) && (x > 0) && (y < 64) && (y > 0)) && i_look != 0){
     bitWrite(m_MapBuffer[byteCoord], bitCoord, i_look);  
   }
 }
